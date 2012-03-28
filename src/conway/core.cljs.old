@@ -1,0 +1,16 @@
+(ns conway.core
+  (:require [goog.dom :as dom]))
+
+(defn ^:export greet [n]
+  (str "Hello " n))
+
+(defn ^:export draw [cosmos]
+  (let [canvas (dom/getElement "cosmos")
+        context (.getContext canvas "2d")]
+    (set! (.-fillStyle context) "red")
+    (.fillRect context 20 20 40 40)))
+
+(def ^:export cosmos [[0 1] [1 0]])
+
+(defn ^:export next-cosmos [cosmos]
+  cosmos)

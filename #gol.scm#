@@ -1,0 +1,73 @@
+(define get-value-mod
+  (lambda (matrix i j)
+    (let ((rows (vector-length matrix))
+          (cols (vector-length (vector-ref matrix 0))))
+      (vector-ref (vector-ref matrix (modulo i rows))
+                  (modulo j cols)))))
+
+(define sum-neighbours
+  (lambda (cosmos i j)
+    (+ (get-value-mod cosmos (- i 1) (- j 1))
+       (get-value-mod cosmos (- i 1) j)
+       (get-value-mod cosmos (- i 1) (+ j 1))
+       (get-value-mod cosmos i (- j 1))
+       (get-value-mod cosmos i (+ j 1))
+       (get-value-mod cosmos (+ i 1) (- j 1))
+       (get-value-mod cosmos (+ i 1) j)
+       (get-value-mod cosmos (+ i 1) (+ j 1)))))
+
+(define destiny
+  (lambda (cosmos i j)
+    (if (= 1 (get-value-mod cosmos i j))
+        (cond ((< (sum-neighbours cosmos i j) 2) 0)
+              ((> (sum-neighbours cosmos i j) 3) 0)
+              (else 1))
+        (cond ((= (sum-neighbours cosmos i j) 3) 1)
+              (else 0)))))
+
+(define next-cosmos
+  (lambda (cosmos)
+    (let ((rows (build-vector (vector-length cosmos) identity))
+          (cols (build-vector (vector-length
+                               (vector-ref cosmos 0)) identity)))
+      (vector-map
+       (lambda (i)
+         (vector-map
+          (lambda (j)
+            (destiny cosmos i j)) cols)) rows))))
+
+(define set-cosmos
+  (lambda (cosmos)
+    (let ((new-cosmos (next-cosmos cosmos)))
+      (vector-copy! cosmos 0 new-cosmos)
+      cosmos)))
+
+(define cosmos
+  (vector (vector 0 0 0 0)
+          (vector 0 1 1 0)
+          (vector 0 1 1 0)
+          (vector 0 0 0 0)))
+
+(define cosmos
+  (vector (vector 0 0 0 0 0 0)
+          (vector 0 1 1 0 0 0)
+          (vector 0 1 0 0 0 0)
+          (vector 0 0 0 0 1 0)
+          (vector 0 0 0 1 1 0)
+          (vector 0 0 0 0 0 0)))
+
+cosmos
+(set-cosmos cosmos)
+
+(define glider-cosmos
+  (vector (vector 0 0 0 0 0 0)
+          (vector 0 1 0 1 0 0)
+          (vector 0 0 1 1 0 0)
+          (vector 0 0 1 0 0 0)
+          (vector 0 0 0 0 0 0)
+          (vector 0 0 0 0 0 0)))
+
+(set-cosmos glider-cosmos)
+
+
+
