@@ -1,15 +1,11 @@
 # conway
 
-I'm an app. Or maybe I'm a library? I haven't decided yet. 
-
-The choice is up to you!
+Team 4's stab at Conway's Game of Life, with additional bits added later.
 
 ## Usage
 
-FIXME
+The Clojurescript does everything but advance the state of the game, but there is a Scheme program which will run a game for any size grid.
 
 ## License
-
-Copyright © 2012 FIXME
 
 Distributed under the Eclipse Public License, the same as Clojure.
